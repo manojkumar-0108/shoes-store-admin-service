@@ -12,6 +12,7 @@ import Navbar from './components/Navbar/Navbar'
 import Sidebar from './components/Sidebar/Sidebar';
 import Add from './pages/add-page/Add';
 import List from './pages/list-page/List';
+import Orders from './pages/orders-page/Orders';
 
 /**
  * Other Imports
@@ -35,7 +36,9 @@ function App() {
         <Routes>
           <Route path="/add" element={<Add />} />
           <Route path="/list" element={<List />} />
+          <Route path="/orders" element={<Orders />} />
         </Routes>
+
       </div>
     </div>
 
