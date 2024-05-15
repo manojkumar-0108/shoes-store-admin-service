@@ -1,10 +1,8 @@
 
-import logo from './admin-logo.png';
-import profileIcon from './user.png';
+import adminLogo from './admin-logo.png';
 
 const images = {
-    logo,
-    profileIcon
+    adminLogo
 };
 
 export default images;
