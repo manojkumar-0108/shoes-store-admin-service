@@ -9,5 +9,9 @@
 
 body {
     min-height: 100vh;
-    background-color: #FCFCFC;
+    background-color: white;
+}
+
+.app-content {
+    display: flex;
 }
