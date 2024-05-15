@@ -7,9 +7,28 @@
 }
 
 .navbar .logo {
-    width: max(10%, 80px);
+    width: max(8%, 70px);
 }
 
 .navbar .profile {
     width: 80px;
+}
+
+@media (max-width:500px) {
+
+    .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px 4%;
+        gap: 30px
+    }
+
+    .navbar .logo {
+        width: max(7%, 60px);
+    }
+
+    .navbar .profile {
+        width: 70px;
+    }
 }
