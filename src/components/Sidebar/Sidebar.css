@@ -41,6 +41,7 @@
 .sidebar-option.active {
     background-color: #f7f3f6;
     border: 2px solid rgb(31, 34, 236);
+    color: rgb(31, 34, 236);
 }
 
 @media (max-width:900px) {
