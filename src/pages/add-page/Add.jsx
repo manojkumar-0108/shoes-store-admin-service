@@ -111,7 +111,13 @@ const Add = () => {
 
                     <div className='add-price flex-col'>
                         <p>Product Price</p>
-                        <input type="Number" name='price' onChange={onChangeHandler} value={data.price} placeholder='₹ 1250' />
+                        <input
+                            type="Number"
+                            name='price'
+                            onChange={onChangeHandler}
+                            value={data.price}
+                            placeholder='₹1,250'
+                        />
                     </div>
                 </div>
                 <button type='submit' className='add-btn' >ADD</button>

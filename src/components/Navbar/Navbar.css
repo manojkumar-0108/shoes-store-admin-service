@@ -6,6 +6,13 @@
     gap: 50px;
 }
 
+h1 {
+    color: blue;
+    font-family: cursive;
+    font-size: 40px;
+    font-weight: 500;
+}
+
 .navbar .logo {
     width: max(8%, 70px);
 }
@@ -17,10 +24,6 @@
 @media (max-width:500px) {
 
     .navbar {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 8px 4%;
         gap: 30px
     }
 
@@ -30,5 +33,9 @@
 
     .navbar .profile {
         width: 70px;
+    }
+
+    h1 {
+        font-size: 30px;
     }
 }
