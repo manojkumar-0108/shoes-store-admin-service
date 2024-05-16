@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axiosInstance from '../../helpers/axiosInstance'
 import { useContext, useState } from 'react'
 import { toast } from 'react-toastify'
 import { StoreContext } from '../../Context/StoreContext'
@@ -30,8 +30,7 @@ const LoginPopup = ({ setShowLogin }) => {
     const onLogin = async (e) => {
         e.preventDefault()
 
-        let new_url = BACKEND_BASE_URL + LOGIN;
-        const response = await axios.post(new_url, data);
+        const response = await axiosInstance.post(`${LOGIN}`, data);
 
         if (response.data.success) {
             setToken(response.data.data)

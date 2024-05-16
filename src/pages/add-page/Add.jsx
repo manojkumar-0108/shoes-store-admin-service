@@ -1,10 +1,17 @@
-import { useState } from 'react'
-import './Add.css'
-import { BACKEND_BASE_URL, assets } from '../../assets';
-import axios from 'axios';
+import { useState, useContext } from 'react'
+import axiosInstance from '../../helpers/axiosInstance';
 import { toast } from 'react-toastify';
 
+import { StoreContext } from '../../Context/StoreContext'
+import './Add.css'
+
+import { assets, API_END_POINTS } from '../../assets';
+const { ADD_SHOE } = API_END_POINTS;
+
+
 const Add = () => {
+
+    const { token } = useContext(StoreContext);
 
     const [data, setData] = useState({
         name: "",
@@ -17,20 +24,27 @@ const Add = () => {
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
+
         const formData = new FormData();
         formData.append("name", data.name);
         formData.append("description", data.description);
-        formData.append("price", Number(data.price));
+        formData.append("price", data.price);
         formData.append("category", data.category);
         formData.append("image", image);
-        const response = await axios.post(`${BACKEND_BASE_URL}/api/food/add`, formData);
+
+        const response = await axiosInstance.post(
+            `${ADD_SHOE}`,
+            formData,
+            { headers: { 'x-access-token': token, 'Content-Type': 'multipart/form-data' } }
+        );
+
         if (response.data.success) {
             toast.success(response.data.message)
             setData({
                 name: "",
                 description: "",
                 price: "",
-                category: "Salad"
+                category: "Air Jordan"
             })
             setImage(false);
         }
