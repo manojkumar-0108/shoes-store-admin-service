@@ -1,7 +1,7 @@
 /**
  * Pacakages Import 
  */
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Route, Routes } from 'react-router-dom'
@@ -14,6 +14,9 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Add from './pages/add-page/Add';
 import List from './pages/list-page/List';
 import Orders from './pages/orders-page/Orders';
+
+import { StoreContext } from './Context/StoreContext'
+
 
 /**
  * Other Imports
@@ -28,6 +31,13 @@ import LoginPopup from './components/LoginPopup/LoginPopup'
 function App() {
 
   const [showLogin, setShowLogin] = useState(false);
+  const { token } = useContext(StoreContext);
+
+  useEffect(() => {
+    if (!token || token === undefined) {
+      setShowLogin(true);
+    }
+  }, [token, setShowLogin]);
 
   return (
     <div className='app'>

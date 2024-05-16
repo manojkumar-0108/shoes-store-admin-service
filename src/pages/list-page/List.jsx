@@ -34,16 +34,17 @@ const List = () => {
     }
   }
 
-  const removeShoe = async (foodId) => {
-    const response = await axiosInstance.post(`${SHOES}/`, {
-      id: foodId
-    })
+  const removeShoe = async (shoeId) => {
+    const response = await axiosInstance.delete(
+      `${SHOES}${shoeId}`,
+      { headers: { 'x-access-token': token, 'Content-Type': 'multipart/form-data' } }
+    );
     await fetchList();
     if (response.data.success) {
       toast.success(response.data.message);
     }
     else {
-      toast.error("Error")
+      toast.error(response.data.message);
     }
   }
 
