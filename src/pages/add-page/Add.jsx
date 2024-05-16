@@ -6,7 +6,7 @@ import { StoreContext } from '../../Context/StoreContext'
 import './Add.css'
 
 import { assets, API_END_POINTS } from '../../assets';
-const { ADD_SHOE } = API_END_POINTS;
+const { SHOES } = API_END_POINTS;
 
 
 const Add = () => {
@@ -33,7 +33,7 @@ const Add = () => {
         formData.append("image", image);
 
         const response = await axiosInstance.post(
-            `${ADD_SHOE}`,
+            `${SHOES}`,
             formData,
             { headers: { 'x-access-token': token, 'Content-Type': 'multipart/form-data' } }
         );

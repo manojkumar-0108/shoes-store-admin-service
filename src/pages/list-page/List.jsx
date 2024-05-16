@@ -1,30 +1,41 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios';
+import { useEffect, useState, useContext } from 'react'
 import { toast } from 'react-toastify';
 
+import axiosInstance from '../../helpers/axiosInstance';
 import currencyFormatter from '../../helpers/currency.formatter';
+
 import './List.css'
-import { BACKEND_BASE_URL } from '../../assets';
+
+import { API_END_POINTS, BACKEND_BASE_URL } from '../../assets';
+const { SHOES } = API_END_POINTS;
+
 import { IconContext } from "react-icons";
 import { MdDeleteForever } from "react-icons/md";
 
+import { StoreContext } from '../../Context/StoreContext'
 
 const List = () => {
+
+  const { token } = useContext(StoreContext);
 
   const [list, setList] = useState([]);
 
   const fetchList = async () => {
-    const response = await axios.get(`${BACKEND_BASE_URL}/api/food/list`)
+    const response = await axiosInstance.get(
+      `${SHOES}`,
+      { headers: { 'x-access-token': token, 'Content-Type': 'multipart/form-data' } }
+    );
+
     if (response.data.success) {
       setList(response.data.data);
     }
     else {
-      toast.error("Error")
+      toast.error(response.data.message)
     }
   }
 
   const removeShoe = async (foodId) => {
-    const response = await axios.post(`${BACKEND_BASE_URL}/api/food/remove`, {
+    const response = await axiosInstance.post(`${SHOES}/`, {
       id: foodId
     })
     await fetchList();
