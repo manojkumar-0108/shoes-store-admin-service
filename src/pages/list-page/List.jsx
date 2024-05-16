@@ -23,7 +23,7 @@ const List = () => {
     }
   }
 
-  const removeFood = async (foodId) => {
+  const removeShoe = async (foodId) => {
     const response = await axios.post(`${BACKEND_BASE_URL}/api/food/remove`, {
       id: foodId
     })
@@ -64,7 +64,7 @@ const List = () => {
               <IconContext.Provider value={{ size: '20px' }}>
                 <MdDeleteForever
                   className='delete-icon'
-                  onClick={() => removeFood(item.id)}
+                  onClick={() => removeShoe(item.id)}
                 />
               </IconContext.Provider>
 

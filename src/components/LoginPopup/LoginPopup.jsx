@@ -8,30 +8,33 @@ import './LoginPopup.css'
 import { IconContext } from "react-icons";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
+import { API_END_POINTS, BACKEND_BASE_URL } from '../../assets';
+const { LOGIN } = API_END_POINTS;
+
 
 const LoginPopup = ({ setShowLogin }) => {
 
     const { setToken, url } = useContext(StoreContext)
 
     const [data, setData] = useState({
-        name: "",
         email: "",
         password: ""
-    })
+    });
 
     const onChangeHandler = (event) => {
         const name = event.target.name
         const value = event.target.value
-        setData(data => ({ ...data, [name]: value }))
+        setData(data => ({ ...data, [name]: value }));
     }
 
     const onLogin = async (e) => {
         e.preventDefault()
-        let new_url = url + "/api/user/login";
 
+        let new_url = BACKEND_BASE_URL + LOGIN;
         const response = await axios.post(new_url, data);
+
         if (response.data.success) {
-            setToken(response.data.token)
+            setToken(response.data.data)
             localStorage.setItem("token", response.data.token)
             setShowLogin(false)
         }
