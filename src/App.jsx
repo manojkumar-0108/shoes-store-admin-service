@@ -1,6 +1,7 @@
 /**
  * Pacakages Import 
  */
+import React, { useState } from 'react'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Route, Routes } from 'react-router-dom'
@@ -18,18 +19,22 @@ import Orders from './pages/orders-page/Orders';
  * Other Imports
  */
 
+import LoginPopup from './components/LoginPopup/LoginPopup'
+
 /**
  * Home Page of the admin service
  * @returns 
  */
 function App() {
 
+  const [showLogin, setShowLogin] = useState(false);
+
   return (
     <div className='app'>
       <ToastContainer />
-      <Navbar />
+      {showLogin ? <LoginPopup setShowLogin={setShowLogin} /> : <></>}
+      <Navbar setShowLogin={setShowLogin} />
       <hr />
-
       <div className="app-content">
         <Sidebar />
 
