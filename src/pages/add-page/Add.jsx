@@ -44,7 +44,7 @@ const Add = () => {
                 name: "",
                 description: "",
                 price: "",
-                category: "Air Jordan"
+                category: "Sneakers"
             })
             setImage(false);
         }
@@ -116,10 +116,15 @@ const Add = () => {
                             name='category'
                             onChange={onChangeHandler}
                         >
-                            <option value="Air Jordan">Air Jordan</option>
-                            <option value="Air Jordan">Air Jordan</option>
-                            <option value="Air Jordan">Air Jordan</option>
-
+                            <option value="Sneakers">Sneakers</option>
+                            <option value="Boots">Boots</option>
+                            <option value="Athletic Shoes">Athletic Shoes</option>
+                            <option value="Sandals">Sandals</option>
+                            <option value="Loafers">Loafers</option>
+                            <option value="Oxfords">Oxfords</option>
+                            <option value="Sandals">Bluchers</option>
+                            <option value="Loafers">Slippers</option>
+                            <option value="Oxfords">Moccasins</option>
                         </select>
                     </div>
 
