@@ -17,7 +17,7 @@ const Add = () => {
         name: "",
         description: "",
         price: "",
-        category: "Air Jordan"
+        category: "Sneakers"
     });
 
     const [image, setImage] = useState(false);

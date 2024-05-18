@@ -1,40 +1,40 @@
 /**
  * packages import
  */
-
 import { useEffect, useState, useContext } from 'react'
 import { toast } from 'react-toastify';
-
 import { StoreContext } from '../../Context/StoreContext'
 
 /**
  * user defined components or other imports
  */
 import './Orders.css'
-import { assets, BACKEND_BASE_URL, API_END_POINTS } from '../../assets/';
-const { ORDERS } = API_END_POINTS;
-
+import { assets, API_END_POINTS } from '../../assets/';
 import axiosInstance from '../../helpers/axiosInstance';
+import currencyFormatter from '../../helpers/currency.formatter';
+
 
 /**
  * This page will display all the orders placed by user
  * @returns 
  */
-
 const Order = () => {
 
   const { token } = useContext(StoreContext);
-  const [orders, setOrders] = useState([]);
+  const [ordersData, setOrdersData] = useState([]);
+
 
   const fetchAllOrders = async () => {
 
     const response = await axiosInstance.get(
-      ORDERS,
-      { headers: { 'x-access-token': token, 'Content-Type': 'multipart/form-data' } }
+      `${API_END_POINTS.ORDERS}`,
+      { headers: { 'x-access-token': token } }
     );
 
+    setOrdersData(response.data.data);
+
     if (response.data.success) {
-      setOrders(response.data.data.reverse());
+      toast.success(response.data.message);
     }
     else {
       toast.error(response.data.message);
@@ -43,10 +43,14 @@ const Order = () => {
 
   const statusHandler = async (event, orderId) => {
     console.log(event, orderId);
-    const response = await axiosInstance.post(`${BACKEND_BASE_URL}/api/order/status`, {
-      orderId,
-      status: event.target.value
-    })
+
+
+    const response = await axiosInstance.patch(
+      `${API_END_POINTS.ORDERS}status/${orderId}`,
+      { status: event.target.value },
+      { headers: { 'x-access-token': token } }
+    );
+
     if (response.data.success) {
       await fetchAllOrders();
     }
@@ -54,16 +58,18 @@ const Order = () => {
 
 
   useEffect(() => {
-    fetchAllOrders();
+    if (token) {
+      fetchAllOrders();
+    }
   }, [])
 
   return (
     <div className='order add'>
       <h3>Orders Page</h3>
       <div className="order-list">
-        {orders.map((order, index) => (
+        {ordersData.map((order, index) => (
           <div key={index} className='order-item'>
-            <img src={assets.images.adminLogo} alt="" />
+            <img src={assets.images.parcelIcon} alt="" />
             <div>
               <p className='order-item-food'>
                 {order.items.map((item, index) => {
@@ -75,18 +81,18 @@ const Order = () => {
                   }
                 })}
               </p>
-              <p className='order-item-name'>{order.address.firstName + " " + order.address.lastName}</p>
+              <p className='order-item-name'>{order?.address?.firstName + " " + order?.address?.lastName}</p>
               <div className='order-item-address'>
                 <p>{order.address.street + ","}</p>
-                <p>{order.address.city + ", " + order.address.state + ", " + order.address.country + ", " + order.address.zipcode}</p>
+                <p>{order.address.city + ", " + order?.address?.state + ", " + order?.address?.country + ", " + order?.address?.zipcode}</p>
               </div>
-              <p className='order-item-phone'>{order.address.phone}</p>
+              <p className='order-item-phone'>{order?.address?.phone}</p>
             </div>
-            <p>Items : {order.items.length}</p>
-            <p>₹{order.amount}</p>
+            <p>Items : {order?.items.length}</p>
+            <p>{currencyFormatter}</p>
             <select
               onChange={(e) => statusHandler(e, order.id)}
-              value={order.status}
+              value={order?.status}
               name=""
               id=""
             >

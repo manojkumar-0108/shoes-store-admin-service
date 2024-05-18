@@ -23,7 +23,7 @@ const List = () => {
   const fetchList = async () => {
     const response = await axiosInstance.get(
       `${SHOES}`,
-      { headers: { 'x-access-token': token, 'Content-Type': 'multipart/form-data' } }
+      { headers: { 'x-access-token': token } }
     );
 
     if (response.data.success) {
@@ -37,7 +37,7 @@ const List = () => {
   const removeShoe = async (shoeId) => {
     const response = await axiosInstance.delete(
       `${SHOES}${shoeId}`,
-      { headers: { 'x-access-token': token, 'Content-Type': 'multipart/form-data' } }
+      { headers: { 'x-access-token': token } }
     );
     await fetchList();
     if (response.data.success) {
@@ -68,7 +68,7 @@ const List = () => {
         {list.map((item, index) => {
           return (
             <div key={index} className='list-table-format'>
-              <img src={`${BACKEND_BASE_URL}/images/` + item.image} alt="" />
+              <img src={`${BACKEND_BASE_URL}/api/admin/images/` + item.image} alt="" />
               <p>{item.name}</p>
               <p>{item.category}</p>
               <p>{currencyFormatter(item.price)}</p>

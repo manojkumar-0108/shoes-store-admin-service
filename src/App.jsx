@@ -33,11 +33,11 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
   const { token } = useContext(StoreContext);
 
-  useEffect(() => {
-    if (!token || token === undefined) {
-      setShowLogin(true);
-    }
-  }, [token, setShowLogin]);
+  // useEffect(() => {
+  //   if (!token || token === undefined) {
+  //     setShowLogin(true);
+  //   }
+  // }, [token, setShowLogin]);
 
   return (
     <div className='app'>
