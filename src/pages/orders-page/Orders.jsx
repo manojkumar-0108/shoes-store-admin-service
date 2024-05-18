@@ -25,20 +25,25 @@ const Order = () => {
 
 
   const fetchAllOrders = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${API_END_POINTS.ORDERS}`,
+        { headers: { 'x-access-token': token } }
+      );
 
-    const response = await axiosInstance.get(
-      `${API_END_POINTS.ORDERS}`,
-      { headers: { 'x-access-token': token } }
-    );
+      setOrdersData(response.data.data);
 
-    setOrdersData(response.data.data);
-
-    if (response.data.success) {
-      toast.success(response.data.message);
+      if (response.data.success) {
+        toast.success(response.data.message);
+      }
+      else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      setOrdersData([]);
+      console.log(error);
     }
-    else {
-      toast.error(response.data.message);
-    }
+
   }
 
   const statusHandler = async (event, orderId) => {
@@ -67,7 +72,7 @@ const Order = () => {
     <div className='order add'>
       <h3>Orders Page</h3>
       <div className="order-list">
-        {ordersData.map((order, index) => (
+        {ordersData.length > 0 && ordersData.map((order, index) => (
           <div key={index} className='order-item'>
             <img src={assets.images.parcelIcon} alt="" />
             <div>
