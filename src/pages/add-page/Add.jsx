@@ -161,9 +161,9 @@ const Add = () => {
                             <option value="Sandals">Sandals</option>
                             <option value="Loafers">Loafers</option>
                             <option value="Oxfords">Oxfords</option>
-                            <option value="Sandals">Bluchers</option>
-                            <option value="Loafers">Slippers</option>
-                            <option value="Oxfords">Moccasins</option>
+                            <option value="Bluchers">Bluchers</option>
+                            <option value="Slippers">Slippers</option>
+                            <option value="Moccasins">Moccasins</option>
                         </select>
                     </div>
 
