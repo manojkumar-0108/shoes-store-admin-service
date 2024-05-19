@@ -1,16 +1,15 @@
-import { useState, useContext } from 'react'
+import { useState, useContext } from 'react';
 import axiosInstance from '../../helpers/axiosInstance';
 import { toast } from 'react-toastify';
-
-import { StoreContext } from '../../Context/StoreContext'
-import './Add.css'
-
+import { StoreContext } from '../../Context/StoreContext';
+import './Add.css';
 import { assets, API_END_POINTS } from '../../assets';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { storage } from '../../helpers/firebaseConfig';
+
 const { SHOES } = API_END_POINTS;
 
-
 const Add = () => {
-
     const { token } = useContext(StoreContext);
 
     const [data, setData] = useState({
@@ -21,37 +20,76 @@ const Add = () => {
     });
 
     const [image, setImage] = useState(false);
+    const [imageUrl, setImageUrl] = useState("");
+    const [isLoading, setIsLoading] = useState(false); // Add loading state
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
+        setIsLoading(true); // Set loading to true when form is submitted
 
-        const formData = new FormData();
-        formData.append("name", data.name);
-        formData.append("description", data.description);
-        formData.append("price", data.price);
-        formData.append("category", data.category);
-        formData.append("image", image);
+        try {
+            // Upload image and get URL
+            const image_url = await handleUpload();
 
-        const response = await axiosInstance.post(
-            `${SHOES}`,
-            formData,
-            { headers: { 'x-access-token': token, 'Content-Type': 'multipart/form-data' } }
-        );
+            //setting image url in data
+            data.image = image_url;
 
-        if (response.data.success) {
-            toast.success(response.data.message)
-            setData({
-                name: "",
-                description: "",
-                price: "",
-                category: "Sneakers"
-            })
-            setImage(false);
-        }
-        else {
-            toast.error(response.data.message)
+            const response = await axiosInstance.post(
+                `${SHOES}`,
+                data,
+                { headers: { 'x-access-token': token } }
+            );
+
+            if (response.data.success) {
+                toast.success(response.data.message)
+                setData({
+                    name: "",
+                    description: "",
+                    price: "",
+                    category: "Sneakers"
+                })
+                setImage(false);
+            } else {
+                toast.error(response.data.message)
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        } finally {
+            setIsLoading(false); // Set loading to false after form submission completes
         }
     }
+
+    const handleUpload = () => {
+        return new Promise((resolve, reject) => {
+            if (!image) {
+                reject("No image selected");
+                return;
+            }
+
+            const storageRef = ref(storage, `images/${image.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, image);
+
+            uploadTask.on('state_changed',
+                (snapshot) => {
+
+                },
+                (error) => {
+                    console.error("Upload failed:", error);
+                    reject(error);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                        setImageUrl(url);
+                        console.log("Image URL:", url);
+                        resolve(url);
+                    }).catch((error) => {
+                        console.error("Error getting download URL:", error);
+                        reject(error);
+                    });
+                }
+            );
+        });
+    };
 
     const onChangeHandler = (event) => {
         const name = event.target.name;
@@ -62,6 +100,7 @@ const Add = () => {
     return (
         <div className='add'>
             <form className='flex-col' onSubmit={onSubmitHandler}>
+                {isLoading && <div className="loading-spinner"></div>} {/* Render loading spinner if isLoading is true */}
                 <div className='add-img-upload flex-col'>
                     <p>Upload image</p>
                     <label
@@ -141,8 +180,17 @@ const Add = () => {
                 </div>
                 <button type='submit' className='add-btn' >ADD</button>
             </form>
+
+            {isLoading && (
+                <div className="loading-overlay">
+                    <div className="spinner-container">
+                        <div className="spinner"></div>
+                        <div>Processing...</div>
+                    </div>
+                </div>
+            )}
         </div>
-    )
+    );
 }
 
-export default Add
+export default Add;

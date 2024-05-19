@@ -8,13 +8,13 @@ import './LoginPopup.css'
 import { IconContext } from "react-icons";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
-import { API_END_POINTS, BACKEND_BASE_URL } from '../../assets';
+import { API_END_POINTS } from '../../assets';
 const { LOGIN } = API_END_POINTS;
 
 
 const LoginPopup = ({ setShowLogin }) => {
 
-    const { setToken, url } = useContext(StoreContext)
+    const { setToken } = useContext(StoreContext)
 
     const [data, setData] = useState({
         email: "",
