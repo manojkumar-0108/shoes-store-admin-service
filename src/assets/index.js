@@ -12,4 +12,4 @@ export const API_END_POINTS = {
     ORDERS: '/api/admin/orders/'
 }
 
-export const BACKEND_BASE_URL = ''https://13.201.77.73/'
+export const BACKEND_BASE_URL = 'http://13.201.77.73'
