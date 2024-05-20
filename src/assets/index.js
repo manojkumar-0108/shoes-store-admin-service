@@ -12,4 +12,4 @@ export const API_END_POINTS = {
     ORDERS: '/api/admin/orders/'
 }
 
-export const BACKEND_BASE_URL = 'http://3.90.217.214:4000/'
+export const BACKEND_BASE_URL = 'https://ec2-15-206-128-33.ap-south-1.compute.amazonaws.com/'
