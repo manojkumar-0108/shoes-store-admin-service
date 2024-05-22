@@ -14,7 +14,8 @@ const { LOGIN } = API_END_POINTS;
 
 const LoginPopup = ({ setShowLogin }) => {
 
-    const { setToken } = useContext(StoreContext)
+    const { setToken } = useContext(StoreContext);
+    const [isLoading, setIsLoading] = useState(false); // Add loading state
 
     const [data, setData] = useState({
         email: "",
@@ -28,18 +29,26 @@ const LoginPopup = ({ setShowLogin }) => {
     }
 
     const onLogin = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        setIsLoading(true);
 
-        const response = await axiosInstance.post(`${LOGIN}`, data);
+        try {
+            const response = await axiosInstance.post(`${LOGIN}`, data);
 
-        if (response.data.success) {
-            setToken(response.data.data);
-            localStorage.setItem("token", response.data.data)
-            setShowLogin(false)
+            if (response.data.success) {
+                setToken(response.data.data);
+                localStorage.setItem("token", response.data.data)
+                setShowLogin(false);
+            }
+            else {
+                toast.error(response.data.message);
+            }
+        } catch (error) {
+            console.log("Login Error : ", error);
+        } finally {
+            setIsLoading(false);
         }
-        else {
-            toast.error(response.data.message)
-        }
+
     }
 
     return (
@@ -84,6 +93,15 @@ const LoginPopup = ({ setShowLogin }) => {
                     <p>By continuing, i agree to the terms of use & privacy policy.</p>
                 </div>
             </form>
+
+            {isLoading && (
+                <div className="loading-overlay">
+                    <div className="spinner-container">
+                        <div className="spinner"></div>
+                        <div>Processing...</div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
