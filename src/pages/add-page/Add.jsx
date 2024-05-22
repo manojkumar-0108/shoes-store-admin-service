@@ -10,7 +10,7 @@ import { storage } from '../../helpers/firebaseConfig';
 const { SHOES } = API_END_POINTS;
 
 const Add = () => {
-    const { token } = useContext(StoreContext);
+    const { token, fetchList } = useContext(StoreContext);
 
     const [data, setData] = useState({
         name: "",
@@ -49,6 +49,8 @@ const Add = () => {
                     category: "Sneakers"
                 })
                 setImage(false);
+                await fetchList();
+
             } else {
                 toast.error(response.data.message)
             }
