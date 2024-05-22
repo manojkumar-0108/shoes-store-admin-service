@@ -1,32 +1,32 @@
 import { createContext, useEffect, useState } from "react";
-export const StoreContext = createContext(null);
-
 import { toast } from "react-toastify";
-
 import { BACKEND_BASE_URL, API_END_POINTS } from "../assets";
 import axiosInstance from "../helpers/axiosInstance";
 
+export const StoreContext = createContext(null);
+
 const StoreContextProvider = (props) => {
-
-
     const url = BACKEND_BASE_URL;
     const [token, setToken] = useState("");
 
     const [list, setList] = useState([]);
     const [ordersData, setOrdersData] = useState([]);
-
     const [appLoading, setAppLoading] = useState(false);
 
     const fetchList = async () => {
-        const response = await axiosInstance.get(
-            `${API_END_POINTS.SHOES}`,
-            { headers: { 'x-access-token': token } }
-        );
+        try {
+            const response = await axiosInstance.get(
+                `${API_END_POINTS.SHOES}`,
+                { headers: { 'x-access-token': token } }
+            );
 
-        if (response.data.success) {
-            setList(response.data.data);
-        } else {
-            toast.error('Failed to get all products', response.data.message);
+            if (response.data.success) {
+                setList(response.data.data);
+            } else {
+                toast.error('Failed to get all products', response.data.message);
+            }
+        } catch (error) {
+            toast.error('An error occurred while fetching products.');
         }
     }
 
@@ -45,7 +45,7 @@ const StoreContextProvider = (props) => {
             }
         } catch (error) {
             setOrdersData([]);
-            console.log(error);
+            toast.error('An error occurred while fetching orders.');
         }
     }
 
@@ -59,12 +59,15 @@ const StoreContextProvider = (props) => {
 
     // Effect to fetch data when the token changes
     useEffect(() => {
-        setAppLoading(true);
-        if (token) {
-            fetchList();
-            fetchAllOrders();
+        const fetchData = async () => {
+            if (token) {
+                setAppLoading(true);
+                await fetchList();
+                await fetchAllOrders();
+                setAppLoading(false);
+            }
         }
-        setAppLoading(false);
+        fetchData();
     }, [token]);
 
     const contextValue = {

@@ -40,7 +40,7 @@ function App() {
         <div className="loading-overlay">
           <div className="spinner-container">
             <div className="spinner"></div>
-            <div>Processing...</div>
+            <div>Loading...</div>
           </div>
         </div>
       </div>
