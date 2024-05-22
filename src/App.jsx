@@ -34,7 +34,16 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
   const { appLoading } = useContext(StoreContext);
 
-
+  if (appLoading) {
+    return (
+      <div className="loading-overlay">
+        <div className="spinner-container">
+          <div className="spinner"></div>
+          <div>Processing...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='app'>
@@ -52,17 +61,6 @@ function App() {
         </Routes>
 
       </div>
-
-
-      {appLoading && (
-        <div className="loading-overlay">
-          <div className="spinner-container">
-            <div className="spinner"></div>
-            <div>Processing...</div>
-          </div>
-        </div>
-      )}
-
 
     </div>
 
