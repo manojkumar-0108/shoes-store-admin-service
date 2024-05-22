@@ -14,7 +14,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Add from './pages/add-page/Add';
 import List from './pages/list-page/List';
 import Orders from './pages/orders-page/Orders';
-import './index.css';
+import './App.css';
 
 import { StoreContext } from './Context/StoreContext'
 
@@ -36,10 +36,12 @@ function App() {
 
   if (appLoading) {
     return (
-      <div className="loading-overlay">
-        <div className="spinner-container">
-          <div className="spinner"></div>
-          <div>Processing...</div>
+      <div className='app'>
+        <div className="loading-overlay">
+          <div className="spinner-container">
+            <div className="spinner"></div>
+            <div>Processing...</div>
+          </div>
         </div>
       </div>
     );

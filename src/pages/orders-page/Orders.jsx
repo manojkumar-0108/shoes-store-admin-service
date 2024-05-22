@@ -80,7 +80,7 @@ const Order = () => {
               <p className='order-item-phone'>{order?.address?.phone}</p>
             </div>
             <p>Items : {order?.items.length}</p>
-            <p>{currencyFormatter}</p>
+            <p>{currencyFormatter(order.amount)}</p>
             <select
               onChange={(e) => statusHandler(e, order.id)}
               value={order?.status}
