@@ -12,12 +12,14 @@ import { AiOutlineLogout } from "react-icons/ai";
 
 const Navbar = ({ setShowLogin }) => {
 
-  const { token, setToken } = useContext(StoreContext);
+  const { token, setToken, setList, setOrdersData } = useContext(StoreContext);
   const navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem("token");
     setToken("");
+    setList([]);
+    setOrdersData([]);
     navigate('/')
   }
 

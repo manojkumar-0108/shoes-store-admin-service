@@ -23,7 +23,7 @@ const StoreContextProvider = (props) => {
         if (response.data.success) {
             setList(response.data.data);
         } else {
-            toast.error(response.data.message);
+            toast.error('Failed to get all products', response.data.message);
         }
     }
 
@@ -36,10 +36,9 @@ const StoreContextProvider = (props) => {
 
             if (response.data.success) {
                 setOrdersData(response.data.data);
-                toast.success(response.data.message);
             } else {
                 setOrdersData([]);
-                toast.error(response.data.message);
+                toast.error('Failed to get all orders', response.data.message);
             }
         } catch (error) {
             setOrdersData([]);
@@ -71,7 +70,8 @@ const StoreContextProvider = (props) => {
         setList,
         fetchList,
         ordersData,
-        fetchAllOrders
+        fetchAllOrders,
+        setOrdersData
     };
 
     return (
