@@ -8,11 +8,14 @@ import axiosInstance from "../helpers/axiosInstance";
 
 const StoreContextProvider = (props) => {
 
+
     const url = BACKEND_BASE_URL;
     const [token, setToken] = useState("");
 
     const [list, setList] = useState([]);
     const [ordersData, setOrdersData] = useState([]);
+
+    const [appLoading, setAppLoading] = useState(false);
 
     const fetchList = async () => {
         const response = await axiosInstance.get(
@@ -56,10 +59,12 @@ const StoreContextProvider = (props) => {
 
     // Effect to fetch data when the token changes
     useEffect(() => {
+        setAppLoading(true);
         if (token) {
             fetchList();
             fetchAllOrders();
         }
+        setAppLoading(false);
     }, [token]);
 
     const contextValue = {
@@ -71,7 +76,9 @@ const StoreContextProvider = (props) => {
         fetchList,
         ordersData,
         fetchAllOrders,
-        setOrdersData
+        setOrdersData,
+        appLoading,
+        setAppLoading
     };
 
     return (

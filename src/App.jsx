@@ -1,7 +1,7 @@
 /**
  * Pacakages Import 
  */
-import React, { useState, useEffect, useContext } from 'react'
+import { useState, useContext } from 'react'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Route, Routes } from 'react-router-dom'
@@ -14,6 +14,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Add from './pages/add-page/Add';
 import List from './pages/list-page/List';
 import Orders from './pages/orders-page/Orders';
+import './index.css';
 
 import { StoreContext } from './Context/StoreContext'
 
@@ -31,13 +32,9 @@ import LoginPopup from './components/LoginPopup/LoginPopup'
 function App() {
 
   const [showLogin, setShowLogin] = useState(false);
-  const { token } = useContext(StoreContext);
+  const { appLoading } = useContext(StoreContext);
 
-  // useEffect(() => {
-  //   if (!token || token === undefined) {
-  //     setShowLogin(true);
-  //   }
-  // }, [token, setShowLogin]);
+
 
   return (
     <div className='app'>
@@ -55,6 +52,18 @@ function App() {
         </Routes>
 
       </div>
+
+
+      {appLoading && (
+        <div className="loading-overlay">
+          <div className="spinner-container">
+            <div className="spinner"></div>
+            <div>Processing...</div>
+          </div>
+        </div>
+      )}
+
+
     </div>
 
   );
