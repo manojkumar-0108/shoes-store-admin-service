@@ -20,35 +20,10 @@ import currencyFormatter from '../../helpers/currency.formatter';
  */
 const Order = () => {
 
-  const { token } = useContext(StoreContext);
-  const [ordersData, setOrdersData] = useState([]);
-
-
-  const fetchAllOrders = async () => {
-    try {
-      const response = await axiosInstance.get(
-        `${API_END_POINTS.ORDERS}`,
-        { headers: { 'x-access-token': token } }
-      );
-
-      setOrdersData(response.data.data);
-
-      if (response.data.success) {
-        toast.success(response.data.message);
-      }
-      else {
-        toast.error(response.data.message);
-      }
-    } catch (error) {
-      setOrdersData([]);
-      console.log(error);
-    }
-
-  }
+  const { token, ordersData, fetchAllOrders } = useContext(StoreContext);
 
   const statusHandler = async (event, orderId) => {
     console.log(event, orderId);
-
 
     const response = await axiosInstance.patch(
       `${API_END_POINTS.ORDERS}status/${orderId}`,

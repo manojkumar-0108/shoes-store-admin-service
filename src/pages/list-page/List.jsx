@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react'
+import { useContext } from 'react'
 import { toast } from 'react-toastify';
 
 import axiosInstance from '../../helpers/axiosInstance';
@@ -6,33 +6,17 @@ import currencyFormatter from '../../helpers/currency.formatter';
 
 import './List.css'
 
-import { API_END_POINTS, BACKEND_BASE_URL } from '../../assets';
+import { API_END_POINTS } from '../../assets';
 const { SHOES } = API_END_POINTS;
 
 import { IconContext } from "react-icons";
 import { MdDeleteForever } from "react-icons/md";
 
-import { StoreContext } from '../../Context/StoreContext'
+import { StoreContext } from '../../Context/StoreContext';
 
 const List = () => {
 
-  const { token } = useContext(StoreContext);
-
-  const [list, setList] = useState([]);
-
-  const fetchList = async () => {
-    const response = await axiosInstance.get(
-      `${SHOES}`,
-      { headers: { 'x-access-token': token } }
-    );
-
-    if (response.data.success) {
-      setList(response.data.data);
-    }
-    else {
-      toast.error(response.data.message)
-    }
-  }
+  const { token, list, fetchList } = useContext(StoreContext);
 
   const removeShoe = async (shoeId) => {
     const response = await axiosInstance.delete(
@@ -40,6 +24,7 @@ const List = () => {
       { headers: { 'x-access-token': token } }
     );
     await fetchList();
+
     if (response.data.success) {
       toast.success(response.data.message);
     }
@@ -47,10 +32,6 @@ const List = () => {
       toast.error(response.data.message);
     }
   }
-
-  useEffect(() => {
-    fetchList();
-  }, [])
 
   return (
     <div className='list add flex-col'>
