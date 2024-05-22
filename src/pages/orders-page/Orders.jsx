@@ -21,18 +21,29 @@ import currencyFormatter from '../../helpers/currency.formatter';
 const Order = () => {
 
   const { token, ordersData, fetchAllOrders } = useContext(StoreContext);
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
 
   const statusHandler = async (event, orderId) => {
-    console.log(event, orderId);
+    setIsLoading(true);
+    try {
+      console.log(event, orderId);
 
-    const response = await axiosInstance.patch(
-      `${API_END_POINTS.ORDERS}status/${orderId}`,
-      { status: event.target.value },
-      { headers: { 'x-access-token': token } }
-    );
+      const response = await axiosInstance.patch(
 
-    if (response.data.success) {
-      await fetchAllOrders();
+        `${API_END_POINTS.ORDERS}status/${orderId}`,
+        { status: event.target.value },
+        { headers: { 'x-access-token': token } }
+      );
+
+      if (response.data.success) {
+        await fetchAllOrders();
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log("Error : ", error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -87,6 +98,15 @@ const Order = () => {
           </div>
         ))}
       </div>
+
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="spinner-container">
+            <div className="spinner"></div>
+            <div>Processing...</div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

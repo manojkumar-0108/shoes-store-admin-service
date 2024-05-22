@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { toast } from 'react-toastify';
 
 import axiosInstance from '../../helpers/axiosInstance';
@@ -17,20 +17,29 @@ import { StoreContext } from '../../Context/StoreContext';
 const List = () => {
 
   const { token, list, fetchList } = useContext(StoreContext);
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
 
   const removeShoe = async (shoeId) => {
-    const response = await axiosInstance.delete(
-      `${SHOES}${shoeId}`,
-      { headers: { 'x-access-token': token } }
-    );
-    await fetchList();
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.delete(
+        `${SHOES}${shoeId}`,
+        { headers: { 'x-access-token': token } }
+      );
+      await fetchList();
 
-    if (response.data.success) {
-      toast.success(response.data.message);
+      if (response.data.success) {
+        toast.success(response.data.message);
+      }
+      else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log("Error : ", error);
+    } finally {
+      setIsLoading(false);
     }
-    else {
-      toast.error(response.data.message);
-    }
+
   }
 
   return (
@@ -67,6 +76,15 @@ const List = () => {
         })}
 
       </div>
+
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="spinner-container">
+            <div className="spinner"></div>
+            <div>Processing...</div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
