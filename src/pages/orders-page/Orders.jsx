@@ -81,6 +81,9 @@ const Order = () => {
             </div>
             <p>Items : {order?.items.length}</p>
             <p>{currencyFormatter(order.amount)}</p>
+            <p className={(order.payment == 'failed') ? 'failed-payment' : 'success-payment'}>
+              Payment {order.payment}
+            </p>
             <select
               onChange={(e) => statusHandler(e, order.id)}
               value={order?.status}

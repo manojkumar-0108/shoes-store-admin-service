@@ -1,7 +1,7 @@
 /* Base Styles */
 .order-item {
     display: grid;
-    grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr;
+    grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 1fr;
     align-items: center;
     gap: 30px;
     border: 1px solid rgb(31, 34, 236);
@@ -9,6 +9,26 @@
     margin: 30px 0px;
     font-size: 14px;
     color: #505050;
+}
+
+.failed-payment,
+.success-payment {
+    font-size: 13px;
+    font-weight: 400;
+    width: 120px;
+    text-align: center;
+    padding: 5px;
+    border: hidden;
+    border-radius: 5px;
+    background-color: rgb(218, 239, 254);
+}
+
+.failed-payment {
+    color: red;
+}
+
+.success-payment {
+    color: green;
 }
 
 .order-item img {
