@@ -20,15 +20,15 @@
     padding: 5px;
     border: hidden;
     border-radius: 5px;
-    background-color: rgb(218, 239, 254);
+    background-color: rgb(28, 31, 33);
 }
 
 .failed-payment {
-    color: red;
+    color: rgb(240, 36, 36);
 }
 
 .success-payment {
-    color: green;
+    color: rgb(100, 255, 100);
 }
 
 .order-item img {
