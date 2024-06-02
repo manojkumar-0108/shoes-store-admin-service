@@ -13,3 +13,4 @@ export const API_END_POINTS = {
 }
 
 export const BACKEND_BASE_URL = 'https://shoes-store-server.onrender.com/'
+// export const BACKEND_BASE_URL = 'http://localhost:3000/'
