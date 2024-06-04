@@ -2,6 +2,8 @@
 
 **`Live Preview`** : https://shoes-store-admin-service.onrender.com/
 
+- Change backend URL from ./src/assests/index.js => to // export const BACKEND_BASE_URL = 'http://localhost:3000/'
+
 - DUMMY ACCOUNTS:
 
         Email : admin@gmail.com
